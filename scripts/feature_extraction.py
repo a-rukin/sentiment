@@ -108,7 +108,9 @@ def compose_data(tweets):
 
 
 def extract_uni_features_from_tweets(tweets, test_tweets, output_training_file_path, output_test_file_path):
+    print("unigrams features extraction")
     stop_words = [line.rstrip() for line in open(STOP_WORDS)]
+    stop_words.remove('\ufeff')
     print(stop_words)
     vector_sk = CountVectorizer(min_df=1, stop_words=stop_words)
     features_matrix = vector_sk.fit_transform(tweets)
@@ -121,6 +123,7 @@ def extract_uni_features_from_tweets(tweets, test_tweets, output_training_file_p
 
 
 def extract_bigram_features_from_tweets(tweets, test_tweets, output_training_file_path, output_test_file_path):
+    print("bigrams features extraction")
     vector_sk = CountVectorizer(ngram_range=(2, 2), min_df=1)
     features_matrix = vector_sk.fit_transform(tweets)
     test_matrix = vector_sk.transform(test_tweets)
@@ -132,6 +135,7 @@ def extract_bigram_features_from_tweets(tweets, test_tweets, output_training_fil
 
 
 def extract_four_gram_features_from_tweets(tweets, test_tweets, output_training_file_path, output_test_file_path):
+    print("four grams features extraction")
     vector_sk = CountVectorizer(ngram_range=(4, 4), analyzer="char", min_df=1)
     features_matrix = vector_sk.fit_transform(tweets)
     test_matrix = vector_sk.transform(test_tweets)
@@ -143,6 +147,7 @@ def extract_four_gram_features_from_tweets(tweets, test_tweets, output_training_
 
 
 def extract_and_dump_ngram_features(input_file_path, input_test_file_path):
+    print("ngrams features extraction")
     clean_training_tweets = compose_data(open(input_file_path))
     clean_test_tweets = compose_data(open(input_test_file_path))
     extract_uni_features_from_tweets(clean_training_tweets, clean_test_tweets,
@@ -189,35 +194,39 @@ def make_all_features_matrix(unigrams_file_path, bigrams_file_path,
     io.mmwrite(all_features_file_path, all_features)
 
 
-if __name__ == '__main__':
+def run(training_set_size):
     # Создаем обучающую и тестовую выборку
-    TRAINING_SET_SIZE = 2500000
-    TEST_SET_SIZE = 100000
+    # training_set_size = 2500000
+    # test_set_size = 100000
+    test_set_size = 0
     make_test_and_training_set(open(CLEAN_POS_TWEETS_FILE_NAME, encoding="utf8"),
                                open(CLEAN_NEG_TWEETS_FILE_NAME, encoding="utf8"),
                                open(CLEAN_TRAIN_TWEETS_FILE_NAME, 'w+'),
                                open(CLEAN_TEST_TWEETS_FILE_NAME, 'w+'),
-                               TRAINING_SET_SIZE, TEST_SET_SIZE)
+                               training_set_size, test_set_size)
     make_test_and_training_set(open(FEATURED_POS_TWEETS_FILE_NAME, encoding="utf8"),
                                open(FEATURED_NEG_TWEETS_FILE_NAME, encoding="utf8"),
                                open(FEATURED_TRAIN_TWEETS_FILE_NAME, 'w+'),
                                open(FEATURED_TEST_TWEETS_FILE_NAME, 'w+'),
-                               TRAINING_SET_SIZE, TEST_SET_SIZE)
+                               training_set_size, test_set_size)
     time = datetime.datetime.now()
     # Выделяем наши факторы
     extract_and_dump_features(FEATURED_TRAIN_TWEETS_FILE_NAME, TRAIN_OTHER_FEATURES_FILE_NAME)
-    extract_and_dump_features(FEATURED_TEST_TWEETS_FILE_NAME, TEST_OTHER_FEATURES_FILE_NAME)
+    # extract_and_dump_features(FEATURED_TEST_TWEETS_FILE_NAME, TEST_OTHER_FEATURES_FILE_NAME)
     # Выделяем N-граммы
     extract_and_dump_ngram_features(CLEAN_TRAIN_TWEETS_FILE_NAME, CLEAN_TEST_TWEETS_FILE_NAME)
     # Склеиваем матрицу факторов и матрицы n-грамм.
-    make_all_features_matrix(UNIGRAMS_TEST_FEATURES_FILE_NAME,
-                             BIGRAMS_TEST_FEATURES_FILE_NAME,
-                             TEST_OTHER_FEATURES_FILE_NAME,
-                             TEST_FEATURES_FILE_NAME)
-    print("test features matrix made")
+    # make_all_features_matrix(UNIGRAMS_TEST_FEATURES_FILE_NAME,
+    #                          BIGRAMS_TEST_FEATURES_FILE_NAME,
+    #                          TEST_OTHER_FEATURES_FILE_NAME,
+    #                          TEST_FEATURES_FILE_NAME)
+    # print("test features matrix made")
     make_all_features_matrix(UNIGRAMS_TRAIN_FEATURES_FILE_NAME,
                              BIGRAMS_TRAIN_FEATURES_FILE_NAME,
                              TRAIN_OTHER_FEATURES_FILE_NAME,
                              TRAIN_FEATURES_FILE_NAME)
     print("training features matrix made")
     print("extract features: seconds_passed: %s" % (datetime.datetime.now() - time).total_seconds())
+
+if __name__ == '__main__':
+    run()

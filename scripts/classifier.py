@@ -16,7 +16,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.externals import joblib
 from scipy import io
 
-from samples import NB_CLASSIFIER, CLEARED_DATA_NB_CLASSIFIER, REAL_TEST_FEATURES_FILE_NAME
+from samples import NB_CLASSIFIER, CLEARED_DATA_NB_CLASSIFIER, REAL_TEST_FEATURES_FILE_NAME, TRAIN_FEATURES_FILE_NAME
 
 
 POSITIVE_CLASS = "pos"
@@ -29,7 +29,7 @@ NEGATIVE_CLASS = "neg"
 
 # done
 def fit_svc(feature_matrix, answers):
-    svc = LinearSVC(loss='l2', dual=False, tol=1e-3)
+    svc = LinearSVC(loss='squared_hinge', dual=False, tol=1e-3)
     return svc.fit(feature_matrix, answers)
 
 
@@ -99,7 +99,7 @@ def generate_test_answers(m):
 
 
 def generate_real_test_answers():
-    return np.concatenate((np.array([POSITIVE_CLASS] * 235), np.array([NEGATIVE_CLASS] * 699)))
+    return np.concatenate((np.array([POSITIVE_CLASS] * 235), np.array([NEGATIVE_CLASS] * 235))) #699
 
 
 def evaluate(classifier, test_features, answers):
@@ -110,11 +110,9 @@ def evaluate(classifier, test_features, answers):
     print("accuracy : %s" % accuracy_score(answers, predicted))
 
 
-if __name__ == "__main__":
+def run():
     time = datetime.datetime.now()
-    # classifier = fit_svc(read_feature_matrix_from_file(TRAIN_FEATURES_FILE_NAME), generate_training_answers())
-
-    # classifier = fit_nb(read_feature_matrix_from_file(TRAIN_FEATURES_FILE_NAME), generate_training_answers(4000000))
+    print("classifier fit model start")
 
     # classifier = fit_nb(read_feature_matrix_from_file(TRAIN_FEATURES_FILE_NAME), generate_training_answers(2500000))
 
@@ -130,3 +128,25 @@ if __name__ == "__main__":
     answers = generate_real_test_answers()
     evaluate(classifier, test_features, answers)
     print("evaluate answers: seconds_passed: %s" % (datetime.datetime.now() - time).total_seconds())
+
+
+def check_all_classifiers(training_set_size):
+    classifiers = [fit_nb, fit_per, fit_pac, fit_mxe, fit_svc, fit_sgd]
+    classifiers_names = ["naive bayes", "perceptron", "passive aggressive", "max entropy", "LinearSVC", "sgd"]
+    train_features = read_feature_matrix_from_file(TRAIN_FEATURES_FILE_NAME)
+    train_answers = generate_training_answers(training_set_size)
+    test_features = read_feature_matrix_from_file(REAL_TEST_FEATURES_FILE_NAME)
+    test_answers = generate_real_test_answers()
+    for i, c in enumerate(classifiers):
+        time = datetime.datetime.now()
+        print("classifier fit %s model start" % classifiers_names[i])
+        classifier = c(train_features, train_answers)
+        print("fit %s model: seconds_passed: %s" % (classifiers_names[i], (datetime.datetime.now() - time).total_seconds()))
+        time = datetime.datetime.now()
+        evaluate(classifier, test_features, test_answers)
+        print("evaluate answers: seconds_passed: %s" % (datetime.datetime.now() - time).total_seconds())
+
+
+if __name__ == "__main__":
+    run()
+    # check_all_classifiers(2500000)

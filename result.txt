@@ -1,0 +1,94 @@
+fit naive bayes model: seconds_passed: 435,649002
+             precision    recall  f1-score   support
+
+        pos       0,87      0,96      0,91       235
+        neg       0,99      0,95      0,97       699
+
+avg / total       0,96      0,95      0,95       934
+accuracy : 0,95182012848
+
+====================================================
+
+fit perceptron model: seconds_passed: 441,381655
+             precision    recall  f1-score   support
+
+        pos       0,77      0,92      0,84       235
+        neg       0,97      0,91      0,94       699
+
+avg / total       0,92      0,91      0,91       934
+
+accuracy : 0,91113490364
+
+====================================================
+
+fit passive aggressive model: seconds_passed: 447,78704
+             precision    recall  f1-score   support
+
+        pos       0,92      0,80      0,85       235
+        neg       0,93      0,98      0,96       699
+
+avg / total       0,93      0,93      0,93       934
+
+accuracy : 0,93147751606
+
+Crammer K., Dekel O., Shalev-Shwartz S., Singer Y. Online Passive-Aggressive Algorithms // Journal of Machine Learning Research 7. 2006. Pp. 551
+
+====================================================
+
+fit max entropy model: seconds_passed: 4690,018678         x10 time
+             precision    recall  f1-score   support
+
+        pos       0,85      0,97      0,91       235
+        neg       0,99      0,94      0,97       699
+
+avg / total       0,96      0,95      0,95       934
+
+accuracy : 0,950749464668
+
+====================================================
+
+fit LinearSVC model: seconds_passed: 1202,09853            x3 time
+             precision    recall  f1-score   support
+
+        pos       0,82      0,96      0,88       235
+        neg       0,99      0,93      0,96       699
+
+avg / total       0,94      0,94      0,94       934
+
+accuracy : 0,935760171306
+
+====================================================
+
+fit sgd model: seconds_passed: 768,103919
+             precision    recall  f1-score   support
+
+        pos       0,67      0,93      0,78       235
+        neg       0,97      0,85      0,91       699
+
+avg / total       0,90      0,87      0,87       934
+
+accuracy : 0,867237687366
+
+====================================================
+
+fit nb model: seconds_passed: 254,734599
+             precision    recall  f1-score   support
+
+        neg       0,97      0,98      0,98       235
+        pos       0,98      0,97      0,98       235
+
+avg / total       0,98      0,98      0,98       470
+
+accuracy : 0,976595744681
+
+====================================================
+
+fit nb model on rubcova data set: seconds_passed: 8,981469
+             precision    recall  f1-score   support
+
+        pos       0,89      0,87      0,88       235
+        neg       0,87      0,89      0,88       235
+
+avg / total       0,88      0,88      0,88       470
+
+accuracy : 0,878723404255

@@ -22,11 +22,14 @@ def make_real_test_set(pos_tweets, neg_tweets, output_test_file):
     for tweet in neg_tweets:
         added_tweets += 1
         output_test_file.write(tweet)
+        # if added_tweets >= 235:
+        #     break
     print("negative tweets added - %d", added_tweets)
 
 
 def extract_uni_features_from_real_tweets(train_tweets, test_tweets, output_test_file_path):
     stop_words = [line.rstrip() for line in open(STOP_WORDS)]
+    stop_words.remove('\ufeff')
     print(stop_words)
     vector_sk = CountVectorizer(min_df=1, stop_words=stop_words)
     vector_sk.fit_transform(train_tweets)
@@ -63,7 +66,7 @@ def make_all_real_features_matrix(unigrams_file_path, bigrams_file_path, other_f
     io.mmwrite(all_features_file_path, all_features)
 
 
-if __name__ == '__main__':
+def run():
     make_real_test_set(open(REAL_POS_TWEETS_FILE_NAME, encoding="utf8"),
                        open(REAL_NEG_TWEETS_FILE_NAME, encoding="utf8"),
                        open(REAL_TEST_TWEETS_FILE_NAME, 'w'))
@@ -78,3 +81,7 @@ if __name__ == '__main__':
                                   REAL_TEST_OTHER_FEATURES_FILE_NAME, REAL_TEST_FEATURES_FILE_NAME)
 
     print("extract features: seconds_passed: %s" % (datetime.datetime.now() - time).total_seconds())
+
+
+if __name__ == '__main__':
+    run()

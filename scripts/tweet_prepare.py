@@ -9,7 +9,7 @@ import datetime
 
 from samples import POS_TWEETS_FILE_ONLY_NAME, NEG_TWEETS_FILE_ONLY_NAME, DIR_TWEETS_FILES
 
-smiles = [':)', ':-)', ': )', ':D', '=)', '))', ':(', ':-(', ': (', '=(', '((', ')', '(']
+smiles = [':)', ':-)', ': )', ':d', '=)', '))', ':(', ':-(', ': (', '=(', '((', ')', '(']
 # morph = pymorphy2.MorphAnalyzer()
 mystem = Mystem()
 DICTIONARY = {}
@@ -92,7 +92,7 @@ def normalized_tweet(tweet):
 
 def clean_tweet(tweet):
     return normalized_tweet(
-        delete_repeat(tweet_strip(delete_non_letter(clear_of_link(clear_of_name(tweet_strip(tweet)))))))
+        delete_repeat(tweet_strip(delete_non_letter(delete_smile(clear_of_link(clear_of_name(tweet_strip(tweet.lower()))))))))
 
 
 def clean_tweets_without_dubl(path, filename):
@@ -119,6 +119,7 @@ def clean_tweets_without_dubl(path, filename):
             print("%s was cleared" % line_number)
             print("seconds passed: %s" % (datetime.datetime.now() - clear_time).total_seconds())
             clear_time = datetime.datetime.now()
+    print("%s total was cleared" % line_number)
 
     for i, line in enumerate(ordered_lines):
         txt_clean.write(line + '\n')
@@ -127,6 +128,7 @@ def clean_tweets_without_dubl(path, filename):
         else:
             new_line = '\n'
         txt_featured.write(old_ordered_lines[i] + new_line)
+    print("%s total was written" % len(ordered_lines))
 
 
 if __name__ == '__main__':

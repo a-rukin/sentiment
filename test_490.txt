@@ -1,0 +1,91 @@
+classifier fit model start
+fit nb model: seconds_passed: 9,06786
+             precision    recall  f1-score   support
+
+        pos       0,98      0,97      0,98       235
+        neg       0,97      0,98      0,98       235
+
+avg / total       0,98      0,98      0,98       470
+
+accuracy : 0,976595744681
+evaluate answers: seconds_passed: 0,193804
+
+====================================================
+
+classifier fit model start
+fit per model: seconds_passed: 17,800415
+             precision    recall  f1-score   support
+
+        pos       0,61      1,00      0,75       235
+        neg       1,00      0,35      0,52       235
+
+avg / total       0,80      0,67      0,64       470
+
+accuracy : 0,674468085106
+evaluate answers: seconds_passed: 0,053664
+
+====================================================
+
+classifier fit model start
+fit pac model: seconds_passed: 19,711366
+             precision    recall  f1-score   support
+
+        pos       0,88      0,96      0,91       235
+        neg       0,95      0,86      0,91       235
+
+avg / total       0,91      0,91      0,91       470
+
+accuracy : 0,910638297872
+evaluate answers: seconds_passed: 0,028167
+
+====================================================
+
+classifier fit model start
+fit mxe model: seconds_passed: 3354,092404
+             precision    recall  f1-score   support
+
+        pos       0,97      0,97      0,97       235
+        neg       0,97      0,97      0,97       235
+
+avg / total       0,97      0,97      0,97       470
+
+accuracy : 0,968085106383
+evaluate answers: seconds_passed: 0,007161
+
+====================================================
+
+classifier fit model start
+fit svc model: seconds_passed: 1260,10195
+             precision    recall  f1-score   support
+
+        pos       0,96      0,97      0,97       235
+        neg       0,97      0,96      0,97       235
+
+avg / total       0,97      0,97      0,97       470
+
+accuracy : 0,968085106383
+evaluate answers: seconds_passed: 0,010916
+
+
+====================================================
+
+classifier sgd fit model start
+fit model: seconds_passed: 265,08914
+             precision    recall  f1-score   support
+
+        pos       0,97      0,83      0,89       235
+        neg       0,85      0,97      0,91       235
+
+avg / total       0,91      0,90      0,90       470
+
+accuracy : 0,902127659574
+evaluate answers: seconds_passed: 0,030084
+
+====================================================
+
+97,7
+68,5
+91,1
+96,8
+96,8
+90,2
